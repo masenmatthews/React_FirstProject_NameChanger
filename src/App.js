@@ -32,13 +32,23 @@ class App extends Component {
     } )
   }
 
+  // The switchNameHandler => Maximillian way is another way of binding osmething to the handler, but it's a worse way of doing it. It's generally better to use bind as it is used below.
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer',
+    };
+
     return (
       <div className="App">
         <h1>Hi, This is a React App</h1>
         <p>This is really working!</p>
-        <button onClick={() => this.switchNameHandler("Maximillian")}>Switch name</button>
-        // The above way is another way of binding osmething to the handler, but it's a worse way of doing it. It's generally better to use bind as it is used below.
+        <button
+          style={style}
+          onClick={() => this.switchNameHandler("Maximillian")}>Switch name</button>
         <Person
           name={this.state.persons[0].name}
           age={this.state.persons[0].age} />
