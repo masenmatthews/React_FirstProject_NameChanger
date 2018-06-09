@@ -5,31 +5,40 @@ import Person from './Person/Person'
 class App extends Component {
   state = {
     persons: [
-      { name: "John", age: 30 },
-      { name: "Sarah", age: 35 },
-      { name: "Sam", age: 25 }
+      { id: 'n1', name: "John", age: 30 },
+      { id: 'n2', name: "Sarah", age: 35 },
+      { id: 'n3', name: "Sam", age: 25 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    this.setState( {
-      persons: [
-        { name: newName, age: 90 },
-        { name: "Sarah-Marie", age: 100 },
-        { name: "Samantha", age: 79 }
-      ]
-    } )
+  nameChangedHandler = ( event, id ) => {
+    const personIndex = this.state.persons.find(p => {
+      return p.id === id;
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState( {persons: persons} );
   }
 
-  nameChangedHandler = (event) => {
-    this.setState( {
-      persons: [
-        { name: "John", age: 90 },
-        { name: event.target.value, age: 100 },
-        { name: "Samantha", age: 79 }
-      ]
-    } )
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
   }
 
   // The switchNameHandler => Maximillian way is another way of binding osmething to the handler, but it's a worse way of doing it. It's generally better to use bind as it is used below.
@@ -42,25 +51,31 @@ class App extends Component {
       cursor: 'pointer',
     };
 
+    let persons = null;
+
+    if ( this.state.showPersons ) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonHandler(index)}
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)}/>
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>Hi, This is a React App</h1>
         <p>This is really working!</p>
         <button
           style={style}
-          onClick={() => this.switchNameHandler("Maximillian")}>Switch name</button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, "maxxx")}
-          changed={this.nameChangedHandler} >
-          My hobbies include running and painting </Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+          onClick={this.togglePersonsHandler}>Toggle names</button>
+        {persons}
       </div>
     );
   }
