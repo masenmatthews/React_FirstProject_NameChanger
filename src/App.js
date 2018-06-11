@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 // import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person'
 
@@ -80,24 +80,24 @@ class App extends Component {
       // }
     }
 
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // classes = ['red']
+      assignedClasses.push(classes.red); // assignedClasses = ['red']
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold'); //classes = ['red', 'bold']
+      assignedClasses.push(classes.bold); //assignedClasses = ['red', 'bold']
     }
 
     return (
       // <StyleRoot>
-        <div className="App">
-          <h1>Hi, This is a React App</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          <button
-            style={style}
-            onClick={this.togglePersonsHandler}>Toggle names</button>
-          {persons}
-        </div>
+      <div className={classes.App}>
+        <h1>Hi, This is a React App</h1>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
+        <button
+          style={style}
+          onClick={this.togglePersonsHandler}>Toggle names</button>
+        {persons}
+      </div>
       // </StyleRoot>
     );
   }
