@@ -44,20 +44,21 @@ class App extends Component {
 
   // The switchNameHandler => Maximillian way is another way of binding osmething to the handler, but it's a worse way of doing it. It's generally better to use bind as it is used below.
   render () {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
+    // const style = {
+      // backgroundColor: 'green',
+      // color: 'white',
+      // font: 'inherit',
+      // border: '1px solid blue',
+      // padding: '8px',
+      // cursor: 'pointer',
       // ':hover': {
       //   backgroundColor: 'lightgreen',
       //   color: 'black'
       // }
-    };
+    // };
 
     let persons = null;
+    let btnClass = '';
 
     if ( this.state.showPersons ) {
       persons = (
@@ -73,11 +74,7 @@ class App extends Component {
         </div>
       );
 
-      style.backgroundColor = 'red';
-      // style[':hover'] = {
-      //   backgroundColor: 'lightred',
-      //   color: 'black'
-      // }
+      btnClass = classes.Red;
     }
 
     const assignedClasses = [];
@@ -94,7 +91,7 @@ class App extends Component {
         <h1>Hi, This is a React App</h1>
         <p className={assignedClasses.join(' ')}>This is really working!</p>
         <button
-          style={style}
+          className={btnClass}
           onClick={this.togglePersonsHandler}>Toggle names</button>
         {persons}
       </div>
